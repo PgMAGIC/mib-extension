@@ -1,0 +1,24 @@
+{
+  "manifest_version": 2,
+
+  "name": "One-click Kittens",
+  "description": "This extension demonstrates a 'browser action' with kittens.",
+  "version": "1.0",
+    "content_scripts": [
+    {
+      "matches" : [ "http://*/*", "https://*/*" ],
+      "js": ["jquery.js", "contentscript.js"]
+    }
+  ],
+  "background": {
+    "page" : "background.html"
+  },
+  "browser_action":{
+    "default_title" : "qr",
+    "default_icon": "qr-code-icon.png",
+    "default_popup": "popup.html"
+  },"permissions": [
+    "notifications"
+  ],
+  "content_security_policy" : "script-src 'self' http://localhost:8081 'unsafe-eval' ; object-src 'self'"
+}
