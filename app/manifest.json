@@ -7,7 +7,8 @@
     "content_scripts": [
     {
       "matches" : [ "http://*/*", "https://*/*" ],
-      "js": ["libs/jquery/jquery.min.js", "contentscript.js"]
+      "js": ["libs/jquery/jquery.min.js", "contentscript.js"],
+      "css" : ["css/main.css"]
     }
   ],
   "background": {
