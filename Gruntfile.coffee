@@ -30,12 +30,18 @@ module.exports =  (grunt) ->
 			'styles' : {
 				files: 'assets/**/*.styl',
 				tasks: ['stylus']
+			},
+			'markup' : {
+				files : 'assets/html/**/*.jade'
+				tasks: ['jade']
 			}
 		},
 		jade : {
 			compile: {
 				files: {
-					"app/options.html": ["assets/html/options.jade"]
+					"app/options.html": ["assets/html/options.jade"],
+					"app/popup.html": "assets/html/popup.jade",
+					"app/background.html": "assets/html/background.jade"
 				}
 			}
 		}
