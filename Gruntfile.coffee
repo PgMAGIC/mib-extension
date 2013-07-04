@@ -2,6 +2,7 @@ module.exports =  (grunt) ->
 	grunt.loadNpmTasks 'grunt-contrib-stylus'
 	grunt.loadNpmTasks 'grunt-contrib-coffee'
 	grunt.loadNpmTasks 'grunt-contrib-watch'
+	grunt.loadNpmTasks 'grunt-contrib-jade'
 
 	grunt.initConfig {
 		'stylus' : {
@@ -29,6 +30,13 @@ module.exports =  (grunt) ->
 			'styles' : {
 				files: 'assets/**/*.styl',
 				tasks: ['stylus']
+			}
+		},
+		jade : {
+			compile: {
+				files: {
+					"app/options.html": ["assets/html/options.jade"]
+				}
 			}
 		}
 	}
