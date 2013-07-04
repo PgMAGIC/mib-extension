@@ -1,0 +1,11 @@
+{
+  "name": "Mobile-Input-Bridge",
+  "version": "0.0.1",
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-jshint": "*",
+    "grunt-contrib-nodeunit": "*",
+    "grunt-contrib-uglify": "*",
+    "grunt-contrib-stylus": "~0.5.1"
+  }
+}
