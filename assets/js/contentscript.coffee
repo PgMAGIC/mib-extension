@@ -1,8 +1,8 @@
 port = chrome.runtime.connect({'name' : 'websocket-stuff'})
+activationEvents = "mouse touchstart"
+disablingEvents = "mouseup touchend"
 
-
-$(document).on("mousedown touchstart", "textarea, input[type=text]", (e) -> 
-	#Show qr code
+$(document).on(activationEvents, "textarea, input[type=text]", (e) -> 
 	x = e.pageX;
 	y = e.pageY;
 
@@ -16,29 +16,22 @@ $(document).on("mousedown touchstart", "textarea, input[type=text]", (e) ->
 		document.body.appendChild(newdiv)
 		$qrCodeElem = $('#qrcode-icon-ext')
 	
-
-	$qrCodeElem.css("position", "absolute")
 	$qrCodeElem.css("top", y)
 	$qrCodeElem.css("left", x)
-	$qrCodeElem.css("width", "100px")
-	$qrCodeElem.css("height", "100px")
-	#$qrCodeElem.css("background-color", "red")
-	$qrCodeElem.css("z-index", 100000)
 
-
-	$.get("http://localhost:8081/client-register").then((response) ->
-		address = "http://localhost:8081/qrcode/" + response
+	$.get("http://localhost:8081/client-register").then (response) ->
+		address = "http://localhost:8081/qrcode/#{response}"
 		$qrCodeElem.html("<img src='#{address}'>")
 
-		channelname = "/mobileinput" + response
+		channelname = "/mobileinput#{response}"
 		port.postMessage({"channelname" : channelname})
 
 		port.onMessage.addListener((msg) ->
 			$(e.target).val(msg.inputtext)
 		)
-	)
+	
 )
 
-$(document).on("mouseup touchend", "textarea, input[type=text], #qrcode-icon-ext", (e) ->
+$(document).on(disablingEvents, "textarea, input[type=text], #qrcode-icon-ext", (e) ->
 	$('#qrcode-icon-ext').hide()
 )
