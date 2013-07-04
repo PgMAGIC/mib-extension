@@ -1,6 +1,7 @@
 module.exports =  (grunt) ->
 	grunt.loadNpmTasks 'grunt-contrib-stylus'
 	grunt.loadNpmTasks 'grunt-contrib-coffee'
+	grunt.loadNpmTasks 'grunt-contrib-watch'
 
 	grunt.initConfig {
 		'stylus' : {
@@ -18,6 +19,16 @@ module.exports =  (grunt) ->
 				src: '**/*.coffee',
 				dest: 'app/js/',
 				ext: '.js'
+			}
+		},
+		'watch' : {
+			'scripts' : {
+				files : 'assets/**/*.coffee',
+				tasks: ['coffee']
+			},
+			'styles' : {
+				files: 'assets/**/*.styl',
+				tasks: ['stylus']
 			}
 		}
 	}
