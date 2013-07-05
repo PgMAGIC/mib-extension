@@ -2,24 +2,24 @@
 
 # Saves options to localStorage.
 save_options = ->
-  select = document.getElementById("server-address")
-  server_address = select.value
-  localStorage["server_address"] = server_address
-  localStorage["server_port"] = document.getElementById("server-port").value
-  
-  # Update status to let user know options were saved.
-  status = document.getElementById("status")
-  status.innerHTML = "Options Saved."
-  setTimeout( ->
-    status.innerHTML = ""
-  , 750)
+  server_address = $ "#server-address".val()
+  server_port = $ "server-port".val()
+
+  chrome.storage.sync.set "qr_server_options" =
+    "address" : server_address
+    "port" : server_port
+  , ->
+    # Update status to let user know options were saved.
+    status = $ "#status".html "Options Saved."
+    setTimeout( ->
+      $ "#status".html ""
+    , 750)
 
 # Restores select box state to saved value from localStorage.
 restore_options = ->
-  favorite = localStorage["server_address"]
-  return  unless favorite
-  select = document.getElementById("server-address")
-  select.value = favorite
-  document.getElementById("server-port").value = localStorage["server_port"]
-document.addEventListener "DOMContentLoaded", restore_options
-document.querySelector("#save").addEventListener "click", save_options
+  chrome.storage.sync.get "qr_server_options", (loaded) ->
+    $ "#server-address".val loaded.qr_server_options.address
+    $ "#server-port").val loaded.qr_server_options.port
+    
+$ -> restore_options
+$ "#save".click save_options
