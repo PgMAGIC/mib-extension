@@ -1,6 +1,8 @@
 port = chrome.runtime.connect({'name' : 'websocket-stuff'})
-activationEvents = "mouse touchstart"
+activationEvents = "mousedown touchstart"
 disablingEvents = "mouseup touchend"
+
+
 
 $(document).on(activationEvents, "textarea, input[type=text]", (e) -> 
 	x = e.pageX;
