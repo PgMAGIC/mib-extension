@@ -2,7 +2,7 @@ port = chrome.runtime.connect({'name' : 'websocket-stuff'})
 activationEvents = "mousedown touchstart"
 disablingEvents = "mouseup touchend"
 
-chrome.storage.sync.get "qr_server_options", (loaded) ->
+init = (loaded)->
   server = loaded.qr_server_options.address
   serverPort = loaded.qr_server_options.port
 
@@ -12,9 +12,7 @@ chrome.storage.sync.get "qr_server_options", (loaded) ->
 
     $qrCodeElem = $('#qrcode-icon-ext');
 
-    if $qrCodeElem.length > 0
-      $qrCodeElem.show()
-    else 
+    if $qrCodeElem.length is 0
       newdiv = document.createElement('div') 
       newdiv.setAttribute('id','qrcode-icon-ext')
       document.body.appendChild(newdiv)
@@ -26,6 +24,7 @@ chrome.storage.sync.get "qr_server_options", (loaded) ->
     $.get("http://#{server}:#{serverPort}/client-register").then (response) ->
       address = "http://#{server}:#{serverPort}/qrcode/#{response}"
       $qrCodeElem.html("<img src='#{address}'>")
+      $qrCodeElem.show()
 
       channelname = "/mobileinput#{response}"
       port.postMessage({"channelname" : channelname})
@@ -39,3 +38,6 @@ chrome.storage.sync.get "qr_server_options", (loaded) ->
   $(document).on(disablingEvents, "textarea, input[type=text], #qrcode-icon-ext", (e) ->
     $('#qrcode-icon-ext').hide()
   )
+
+chrome.storage.sync.get "qr_server_options", init
+
