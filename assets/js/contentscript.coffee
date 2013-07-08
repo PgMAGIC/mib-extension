@@ -29,9 +29,14 @@ init = (loaded)->
       channelname = "/mobileinput#{response}"
       port.postMessage({"channelname" : channelname})
 
-      port.onMessage.addListener((msg) ->
-        $(e.target).val(msg.inputtext)
-      )
+      inputCallback = (msg) ->
+        console.log msg 
+        console.log channelname
+        if channelname == msg.channelname
+          $(e.target).val(msg.inputtext)
+
+      console.log port.onMessage
+      port.onMessage.addListener inputCallback
     
   )
 
