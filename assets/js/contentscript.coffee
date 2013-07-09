@@ -2,6 +2,9 @@ port = chrome.runtime.connect({'name' : 'websocket-stuff'})
 activationEvents = "mousedown touchstart"
 disablingEvents = "mouseup touchend"
 
+server = false
+serverPort = false
+
 init = (loaded)->
   server = loaded.qr_server_options.address
   serverPort = loaded.qr_server_options.port
@@ -30,12 +33,9 @@ init = (loaded)->
       port.postMessage({"channelname" : channelname})
 
       inputCallback = (msg) ->
-        console.log msg 
-        console.log channelname
         if channelname == msg.channelname
           $(e.target).val(msg.inputtext)
 
-      console.log port.onMessage
       port.onMessage.addListener inputCallback
     
   )
@@ -46,3 +46,10 @@ init = (loaded)->
 
 chrome.storage.sync.get "qr_server_options", init
 
+onOptionChange = (changes, namespace) ->
+  newOptionValues = changes.qr_server_options.newValue
+  server = newOptionValues.address
+  serverPort = newOptionValues.port
+
+
+chrome.storage.onChanged.addListener onOptionChange
